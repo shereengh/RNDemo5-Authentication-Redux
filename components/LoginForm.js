@@ -20,13 +20,13 @@ class LoginForm extends Component {
     username: "",
     password: ""
   };
-  handleChange = event => {
-    this.setState(event);
+  handleChange = object => {
+    console.log("this is the object" + object);
+    this.setState(object);
   };
 
   handleSubmit = event => {
-    event.preventDefault();
-    this.props.login(this.state);
+    alert("I should log the user in");
   };
 
   render() {
@@ -38,12 +38,22 @@ class LoginForm extends Component {
         <Content>
           <Form>
             <Item>
-              <Input name="username" value={username} placeholder="Username" />
+              <Input
+                name="username"
+                value={username}
+                placeholder="Username"
+                onChangeText={username => this.handleChange({ username })}
+              />
             </Item>
             <Item last>
-              <Input value={password} placeholder="Password" name="password" />
+              <Input
+                value={password}
+                placeholder="Password"
+                name="password"
+                onChangeText={password => this.handleChange({ password })}
+              />
             </Item>
-            <Button>
+            <Button onPress={this.handleSubmit}>
               <Text>Login</Text>
             </Button>
           </Form>
