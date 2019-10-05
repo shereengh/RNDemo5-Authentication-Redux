@@ -20,13 +20,12 @@ class LoginForm extends Component {
     username: "",
     password: ""
   };
-  handleChange = event => {
-    this.setState(event);
+  handleChange = object => {
+    this.setState(object);
   };
 
   handleSubmit = event => {
-    event.preventDefault();
-    this.props.login(this.state);
+    alert("I should log the user in!");
   };
 
   render() {
@@ -43,7 +42,7 @@ class LoginForm extends Component {
             <Item last>
               <Input value={password} placeholder="Password" name="password" />
             </Item>
-            <Button>
+            <Button onPress={this.handleSubmit}>
               <Text>Login</Text>
             </Button>
           </Form>
