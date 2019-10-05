@@ -13,7 +13,7 @@ import {
 import { connect } from "react-redux";
 
 // Actions
-// import { login } from "./redux/actions";
+import { login } from "../redux/actions/auth";
 
 class LoginForm extends Component {
   state = {
@@ -26,7 +26,7 @@ class LoginForm extends Component {
   };
 
   handleSubmit = event => {
-    alert("I should log the user in");
+    this.props.login(this.state);
   };
 
   render() {
@@ -62,4 +62,12 @@ class LoginForm extends Component {
     );
   }
 }
-export default LoginForm;
+const mapDispatchToProps = dispatch => {
+  return {
+    login: userData => dispatch(login(userData))
+  };
+};
+export default connect(
+  null,
+  mapDispatchToProps
+)(LoginForm);
