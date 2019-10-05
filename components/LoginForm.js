@@ -10,6 +10,10 @@ import {
   Text
 } from "native-base";
 class LoginForm extends Component {
+  state = {
+    username: "",
+    password: ""
+  };
   render() {
     return (
       <Container>
