@@ -20,12 +20,12 @@ class LoginForm extends Component {
     username: "",
     password: ""
   };
-  handleChange = object => {
-    this.setState(object);
+  handleChange = keyValue => {
+    this.setState(keyValue);
   };
 
-  handleSubmit = event => {
-    alert("I should log the user in!");
+  handleSubmit = () => {
+    alert("Check my code the states are empty");
   };
 
   render() {
@@ -40,7 +40,12 @@ class LoginForm extends Component {
               <Input name="username" value={username} placeholder="Username" />
             </Item>
             <Item last>
-              <Input value={password} placeholder="Password" name="password" />
+              <Input
+                value={password}
+                placeholder="Password"
+                secureTextEntry
+                name="password"
+              />
             </Item>
             <Button onPress={this.handleSubmit}>
               <Text>Login</Text>
