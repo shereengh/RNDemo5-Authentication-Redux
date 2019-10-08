@@ -15,7 +15,7 @@ import { connect } from "react-redux";
 // Actions
 // import { login } from "./redux/actions";
 
-class LoginForm extends Component {
+class SignupForm extends Component {
   state = {
     username: "",
     password: ""
@@ -25,7 +25,7 @@ class LoginForm extends Component {
   };
 
   handleSubmit = event => {
-    this.props.login(this.state);
+    this.props.signup(this.state);
   };
 
   render() {
@@ -58,7 +58,7 @@ class LoginForm extends Component {
               />
             </Item>
             <Button onPress={this.handleSubmit}>
-              <Text>Login</Text>
+              <Text>Sign up</Text>
             </Button>
           </Form>
         </Content>
@@ -68,10 +68,10 @@ class LoginForm extends Component {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    login: userData => dispatch(login(userData))
+    signup: userData => dispatch(signup(userData))
   };
 };
 export default connect(
   null,
   mapDispatchToProps
-)(LoginForm);
+)(SignupForm);
