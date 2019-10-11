@@ -9,8 +9,7 @@ const reducer = (state = initialState, { type, payload }) => {
     case SET_CURRENT_USER:
       return {
         ...state,
-        user: payload,
-        errors: null
+        user: payload
       };
     default:
       return state;

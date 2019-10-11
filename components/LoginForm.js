@@ -13,7 +13,7 @@ import {
 import { connect } from "react-redux";
 
 // Actions
-// import { login } from "./redux/actions";
+import { login, signup, checkForExpiredToken } from "../redux/actions";
 
 class LoginForm extends Component {
   state = {
@@ -30,7 +30,6 @@ class LoginForm extends Component {
 
   render() {
     const { username, password } = this.state;
-    console.log(this.state);
     return (
       <Container>
         <Header />
@@ -57,8 +56,23 @@ class LoginForm extends Component {
                 }
               />
             </Item>
-            <Button onPress={this.handleSubmit}>
+            <Button
+              full
+              success
+              onPress={() =>
+                this.props.login(this.state, this.props.navigation)
+              }
+            >
               <Text>Login</Text>
+            </Button>
+            <Button
+              full
+              warning
+              onPress={() =>
+                this.props.signup(this.state, this.props.navigation)
+              }
+            >
+              <Text>Register</Text>
             </Button>
           </Form>
         </Content>
@@ -68,7 +82,9 @@ class LoginForm extends Component {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    login: userData => dispatch(login(userData))
+    login: user => dispatch(login(user)),
+    signup: user => dispatch(signup(user)),
+    checkForToken: navigation => dispatch(checkForExpiredToken(navigation))
   };
 };
 export default connect(

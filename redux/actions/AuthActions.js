@@ -4,6 +4,10 @@ import { AsyncStorage } from "react-native";
 
 import * as actionTypes from "./actionTypes";
 
+const instance = axios.create({
+  baseURL: "http://178.128.114.232/api/"
+});
+
 const setAuthToken = token => {
   if (token) {
     AsyncStorage.setItem("token", token);
@@ -15,18 +19,24 @@ const setAuthToken = token => {
   }
 };
 
-export const checkForExpiredToken = () => {
+export const checkForExpiredToken = navigation => {
   return async dispatch => {
+    // Get token
     const token = await AsyncStorage.getItem("token");
 
     if (token) {
       const currentTime = Date.now() / 1000;
 
+      // Decode token and get user info
       const user = jwt_decode(token);
 
-      if (user.exp >= currentTime) {
-        setAuthToken(token);
+      console.log((user.exp - currentTime) / 60);
 
+      // Check token expiration
+      if (user.exp >= currentTime) {
+        // Set auth token header
+        setAuthToken(token);
+        // Set user
         dispatch(setCurrentUser(user));
       } else {
         dispatch(logout());
@@ -35,17 +45,15 @@ export const checkForExpiredToken = () => {
   };
 };
 
-export const login = (userData, navigation) => {
+export const login = userData => {
   return async dispatch => {
     try {
-      let response = await axios.post(
-        "http://178.128.114.232/api/login/",
-        userData
-      );
+      let response = await instance.post("login/", userData);
       let user = response.data;
-      let decodedUser = jwt_decode(user.access);
-      setAuthToken(user.access);
-      await dispatch(setCurrentUser(decodedUser));
+      let decodedUser = jwt_decode(user.token);
+      setAuthToken(user.token);
+      dispatch(setCurrentUser(decodedUser));
+      //navigation.replace("Lo");
     } catch (error) {
       console.error(error);
     }
@@ -55,19 +63,10 @@ export const login = (userData, navigation) => {
 export const signup = userData => {
   return async dispatch => {
     try {
-      let response = await axios.post(
-        "http://178.128.114.232/api/register/",
-        userData
-      );
-      let user = response.data;
-      let decodedUser = jwt_decode(user.access);
-      setAuthToken(user.access);
-      dispatch(setCurrentUser(decodedUser));
+      await instance.post("register/", userData);
+      dispatch(login(userData, navigation));
     } catch (error) {
-      dispatch({
-        type: actionTypes.SET_ERRORS,
-        payload: error.response.data
-      });
+      console.error(error);
     }
   };
 };

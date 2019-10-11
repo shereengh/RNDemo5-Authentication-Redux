@@ -1,11 +1,13 @@
 import LoginForm from "./components/LoginForm";
-import SignupForm from "./components/SignupForm";
 import React from "react";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import store from "./redux/reducers";
 import { Provider } from "react-redux";
+
+import { checkForExpiredToken } from "./redux/actions/AuthActions";
+store.dispatch(checkForExpiredToken());
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -27,7 +29,7 @@ export default class App extends React.Component {
     }
     return (
       <Provider store={store}>
-        <SignupForm />
+        <LoginForm />
       </Provider>
     );
   }
